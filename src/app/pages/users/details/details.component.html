@@ -1,0 +1,29 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <button type="button" class="btn btn-outline-info mb-2" (click)="onGoBack()">Atras</button>
+      </div>
+      <div class="col-md-12">
+        <div class="card profile-card-2 text-center">
+          <div class="card-img-block">
+            <img class="img-fluid"
+              src="https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png"
+              alt="Card image cap">
+          </div>
+          <div class="card-body pt-5">
+            <img src="https://randomuser.me/api/portraits/men/64.jpg" alt="profile-image" class="profile" />
+            <h5 class="card-title">{{this.user.value.name}} {{this.user.value.lastname}}</h5>
+            <p class="card-text">{{this.user.value.identification}}</p>
+            <p class="card-text">{{this.user.value.day_of_birth}}</p>
+            <div class="icon-block"><a href="mailto:{{this.user.value.email}}" target="_blank"> <i class="fa fa-google-plus"></i></a></div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-warning" (click)="onGotoEdit()">Edit</button>
+        <button type="button" class="btn btn-outline-danger" (click)="onDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</section>

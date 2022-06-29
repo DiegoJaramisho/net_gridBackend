@@ -1,0 +1,34 @@
+<h1 class="text-center text-nowrap text-uppercase mt-3">usuarios</h1>
+<div class="table-responsive">
+  <button class="btn btn-primary" (click)="agregarItem()">Agregar</button>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombres</th>
+        <th scope="col">Apellidos</th>
+        <th scope="col">Tipo de identificación</th>
+        <th scope="col">Identificación</th>
+        <th scope="col">Fecha/nacimiento</th>
+        <th scope="col">Correo</th>
+        <th class="d-none d-sm-block" scope="col">Accciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-light" *ngFor="let item of user">
+        <th scope="row">Active</th>
+        <td>{{item.name}}</td>
+        <td>{{item.lastname}}</td>
+        <td>{{item.type_identifications ? item.type_identifications.name : 'Not'}}</td>
+        <td>{{item.identification}}</td>
+        <td>{{item.day_of_birth}}</td>
+        <td>{{item.email}}</td>
+        <td class="btn-group" role="group">
+          <button type="button" class="btn btn-outline-warning" (click)="onGotoEdit(item)">Editar</button>
+          <button type="button" class="btn btn-outline-info" (click)="onGotoView(item)">Ver</button>
+          <button type="button" class="btn btn-outline-danger" (click)="onGotoDelete(item)">Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
