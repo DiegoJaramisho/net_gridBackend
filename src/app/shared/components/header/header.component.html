@@ -7,20 +7,29 @@
 
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" [routerLink]="['/']">Inicio
+        <!-- <li class="nav-item">
+          <a class="nav-link " [routerLink]="['/']">Inicio
             <span class="visually-hidden">(current)</span>
           </a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/list']">Crud</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/list']">Crud</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/new']">Nuevo</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/new']">Nuevo</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/profile']">Perfil</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/profile']">Perfil</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/login']">Login</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" (click)="limpiar()" href="javascript:void(0)">Cerrar Sesion</a>
+        </li>
+
       </ul>
     </div>
   </div>

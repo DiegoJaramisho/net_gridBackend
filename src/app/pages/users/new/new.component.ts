@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsersService } from '../users.service';
+
+declare var alertify: any;
 
 @Component({
   selector: 'app-new',
@@ -9,51 +12,52 @@ import { Router } from '@angular/router';
 })
 export class NewComponent implements OnInit {
 
-  value: any = null
   userForm: any = FormGroup;
 
-  private isEmail = "/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
+  private isEmail = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
 
-  constructor(private router: Router, private fb: FormBuilder) {
-    const navigation = this.router.getCurrentNavigation()
-    this.value = navigation?.extras?.state
-  }
-  api_url:any = 'http://127.0.0.1:8000/api'
-
-  DATA_FORM = {
-    USER: '',
-    NAME: '',
-    LAST_NAME: '',
-    TYPE_IDENTIFICATION: '',
-    EMAIL: '',
-    DATE: ''
-  }
+  constructor(private fb: FormBuilder, private userService: UsersService) { }
 
   ngOnInit(): void {
     this.initForm()
   }
 
   guardarItem(): void {
+    if ( this.userForm.invalid )  {
+      alertify.warning('Todos los campos son obligatorios')
+      this.userForm.markAllAsTouched();
+      return;
+    }
 
-    fetch(`${this.api_url}/user`, {
-      method: "POST",
-      body: JSON.stringify(this.userForm.value),
-      headers: { "Content-type": "application/json; charset=UTF-8" }
+    const datos = {
+      user: this.userForm.value.user,
+      name: this.userForm.value.name,
+      lastname: this.userForm.value.lastName,
+      type_identifications_id: this.userForm.value.type,
+      identification: this.userForm.value.identification,
+      day_of_birth: this.userForm.value.date,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+    }
+    this.userForm.reset();
+    this.userService.addUser(datos).subscribe(({ status }) => {
+      if (status) {
+        alertify.error('El usuario ya existe')
+      } else {
+        alertify.success('Se creo el usuario')
+      }
     })
-    .then(res => res.json())
-    .then(data => console.log(data));
-
-    // console.log('saved', this.userForm.value)
   }
 
   private initForm(): void {
     this.userForm = this.fb.group({
-      user: [this.DATA_FORM.USER, Validators.required],
-      name: [this.DATA_FORM.NAME, Validators.required],
-      lastname: [this.DATA_FORM.LAST_NAME, Validators.required],
-      type_identifications_id: [this.DATA_FORM.TYPE_IDENTIFICATION, Validators.required],
-      email: [this.DATA_FORM.EMAIL, Validators.required],
-      dateBirth: [this.DATA_FORM.DATE, Validators.required],
+      user: ['', Validators.required],
+      name: ['', Validators.required],
+      identification: ['', Validators.required],
+      lastName: ['', Validators.required],
+      type: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      date: ['', Validators.required],
     })
   }
 

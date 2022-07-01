@@ -1,23 +1,43 @@
 <form class="mt-3 col-md-8 offset-md-2"  (ngSubmit)='guardarItem()' [formGroup]="userForm">
   <div class="form row my-2">
+    <div class="form-group col-md-12 mb-2">
+      <input type="text" class="form-control" placeholder="user" formControlName="user">
+    </div>
     <div class="form-group col-md-6">
       <input type="text" class="form-control" placeholder="nombre" formControlName="name">
     </div>
     <div class="form-group col-md-6">
-      <input type="text" class="form-control" placeholder="apellido" formControlName="lastname">
+      <input type="text" class="form-control" placeholder="apellido" formControlName="lastName">
     </div>
   </div>
   <div class="form row my-2">
     <div class="form-group col-md-6">
-      <input type="text" class="form-control" placeholder="correo" formControlName="email">
+      <select class="form-control" formControlName="type">
+        <option [value]="1">CC</option>
+        <option [value]="2">TI</option>
+      </select>
     </div>
     <div class="form-group col-md-6">
-      <input type="date" class="form-control" formControlName="dateBirth">
+      <input type="text" class="form-control" placeholder="identificacion" formControlName="identification">
+    </div>
+  </div>
+  <div class="form row my-2">
+    <div class="form-group col-md-6">
+      <input type="email" class="form-control" placeholder="correo" formControlName="email" [email]="true">
+    </div>
+    <div class="form-group col-md-6">
+      <input type="date" class="form-control" formControlName="date">
     </div>
   </div>
   <div class="d-grid gap-2">
     <button type="submit" class="btn btn-success mt-2">Guardar</button>
   </div>
 </form>
-
-{{userForm.value | json}}
+<!-- id
+user
+name
+identification
+lastName
+type_identifications_id
+email
+date -->

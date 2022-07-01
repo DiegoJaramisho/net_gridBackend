@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-edit',
@@ -8,22 +9,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-  value:any = null
+  dataRaw:any = null
   userForm:any = FormGroup;
 
   private isEmail = "/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder, private userService: UsersService) {
     const navigation = this.router.getCurrentNavigation()
-    this.value = navigation?.extras?.state
-  }
-
-  DATA_FORM = {
-    USER: '',
-    NAME: '',
-    LAST_NAME: '',
-    EMAIL: '',
-    DATE: ''
+    this.dataRaw = navigation?.extras?.state
+    if (!this.dataRaw) {
+      router.navigate(['/list'])
+    }
   }
 
   ngOnInit(): void {
@@ -31,19 +27,36 @@ export class EditComponent implements OnInit {
   }
 
   guardarItem():void {
+    const datos = {
+      user: this.userForm.value.user,
+      name: this.userForm.value.name,
+      lastname: this.userForm.value.lastName,
+      type_identifications_id: this.userForm.value.type,
+      identification: this.userForm.value.identification,
+      day_of_birth: this.userForm.value.date,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+    }
 
-    fetch('', )
-    console.log(this.userForm.value);
-
-    // console.log('saved', this.userForm.value)
+    this.userService.editUser(this.userForm.value.id, datos)
+      .subscribe(res => {
+        console.log(res);
+      })
   }
 
   private initForm(): void {
+    const { value: datos } = this.dataRaw
     this.userForm = this.fb.group({
-      name: [this.DATA_FORM.NAME, Validators.required],
-      lastname: [this.DATA_FORM.LAST_NAME, Validators.required],
-      email: [this.DATA_FORM.EMAIL, Validators.required],
-      dateBirth: [this.DATA_FORM.DATE, Validators.required],
+      id: [/* A destructuring assignment. */
+      /* A destructuring assignment. */
+      datos.id, Validators.required],
+      user: [datos.user, Validators.required],
+      name: [datos.name, Validators.required],
+      identification: [datos.identification, Validators.required],
+      lastName: [datos.lastname, Validators.required],
+      type: [datos.type_identifications_id, Validators.required],
+      email: [datos.email, [Validators.required, Validators.email]],
+      date: [datos.day_of_birth, Validators.required],
     })
   }
 

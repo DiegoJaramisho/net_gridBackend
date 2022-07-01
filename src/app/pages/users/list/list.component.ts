@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { UsersService } from '../users.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-list',
@@ -13,24 +16,22 @@ export class ListComponent implements OnInit {
     }
   };
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private userService: UsersService) {
 
   }
   api_url:any = 'http://127.0.0.1:8000/api'
-  user:any = []
+  users:any = []
+  conditionalDelete:any = false
 
   ngOnInit(): void {
+
     this.getUsers()
   }
 
   getUsers(): void{
-    fetch(`${this.api_url}/user`).then(res => res.json())
-    .then((res) => {
-      const { data } = res[0]
-      this.user = data
-      console.log(data);
 
-
+    this.userService.getUsers().subscribe(({ data }) => {
+      this.users = data
     })
   }
 
@@ -49,8 +50,20 @@ export class ListComponent implements OnInit {
   agregarItem(): void{
     this.router.navigate(['new'], this.navigationExtras)
   }
-  onGotoDelete(item: any): void{
-    console.log(`deleted ${item}`)
+  onGotoDelete(): void{
+    $('#example').show()
+  }
+  saveChange(item:any){
+    console.log(item);
+
+    this.userService.deleteUser(item.id).subscribe(() => {
+      $('#example').hide();
+      this.getUsers()
+    })
+
+  }
+  closeModal(){
+    $('#example').hide();
   }
 
 }

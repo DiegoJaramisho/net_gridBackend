@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="table-light" *ngFor="let item of user">
+      <tr class="table-light" *ngFor="let item of users">
         <th scope="row">Active</th>
         <td>{{item.name}}</td>
         <td>{{item.lastname}}</td>
@@ -26,8 +26,27 @@
         <td class="btn-group" role="group">
           <button type="button" class="btn btn-outline-warning" (click)="onGotoEdit(item)">Editar</button>
           <button type="button" class="btn btn-outline-info" (click)="onGotoView(item)">Ver</button>
-          <button type="button" class="btn btn-outline-danger" (click)="onGotoDelete(item)">Borrar</button>
+          <button type="button" class="btn btn-outline-danger" (click)="onGotoDelete()">Borrar</button>
         </td>
+        <div id="example" class="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" (click)="closeModal()">
+                  <span aria-hidden="true"></span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Modal body text goes here.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="saveChange(item)">Save changes</button>
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </tr>
     </tbody>
   </table>

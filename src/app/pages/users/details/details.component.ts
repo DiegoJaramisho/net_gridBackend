@@ -16,6 +16,9 @@ export class DetailsComponent implements OnInit {
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation()
     this.user = navigation?.extras?.state
+    if (!this.user) {
+      router.navigate(['/list'])
+    }
   }
 
   ngOnInit(): void {
